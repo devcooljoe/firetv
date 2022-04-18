@@ -1,7 +1,13 @@
-import 'package:firetv/screens/login_screen.dart';
+import 'package:firetv/screens/navigation_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
-void main() {
+Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent,
+  ));
   runApp(const FireTV());
 }
 
@@ -11,12 +17,12 @@ class FireTV extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      title: 'FireTV',
       theme: ThemeData(
         primarySwatch: Colors.brown,
       ),
-      home: LoginScreen(),
+      home: NavigationScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

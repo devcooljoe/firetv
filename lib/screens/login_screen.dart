@@ -48,9 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      CustomTextFormField(hintText: 'Username', faIcon: FontAwesomeIcons.solidUser),
+                      CustomTextFormField(hintText: 'Username', faIcon: FontAwesomeIcons.solidUser, obscure: false),
                       const SizedBox(height: 20),
-                      CustomTextFormField(hintText: 'Password', faIcon: FontAwesomeIcons.lock),
+                      CustomTextFormField(hintText: 'Password', faIcon: FontAwesomeIcons.lock, obscure: true),
                       const SizedBox(height: 7),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,34 +145,86 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class CustomTextFormField extends StatelessWidget {
+  final RxBool _obscure = true.obs;
   String hintText;
   IconData faIcon;
-  CustomTextFormField({Key? key, required this.hintText, required this.faIcon}) : super(key: key);
+  bool obscure;
+
+  CustomTextFormField({
+    Key? key,
+    required this.hintText,
+    required this.faIcon,
+    required this.obscure,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      style: const TextStyle(fontSize: 18),
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.white),
-        filled: true,
-        fillColor: const Color(0xffBA6D50),
-        focusColor: const Color(0xffBA6D50),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 14, top: 14),
-          child: FaIcon(faIcon, size: 18, color: Colors.white),
-        ),
-        contentPadding: const EdgeInsets.all(10),
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(15),
-        ),
-      ),
-    );
+    return Obx(() {
+      return _obscure.value == true
+          ? TextFormField(
+              obscureText: obscure == true ? _obscure.value : false,
+              style: const TextStyle(fontSize: 18),
+              decoration: InputDecoration(
+                suffixIcon: obscure == true
+                    ? IconButton(
+                        onPressed: () {
+                          _obscure.value = !_obscure.value;
+                        },
+                        icon: const FaIcon(FontAwesomeIcons.eyeSlash, size: 18, color: Color(0xffEBC08E)),
+                      )
+                    : null,
+                hintText: hintText,
+                hintStyle: const TextStyle(color: Colors.white),
+                filled: true,
+                fillColor: const Color(0xffBA6D50),
+                focusColor: const Color(0xffBA6D50),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 14, top: 14),
+                  child: FaIcon(faIcon, size: 18, color: Colors.white),
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            )
+          : TextFormField(
+              obscureText: obscure == true ? _obscure.value : false,
+              style: const TextStyle(fontSize: 18),
+              decoration: InputDecoration(
+                suffixIcon: obscure == true
+                    ? IconButton(
+                        onPressed: () {
+                          _obscure.value = !_obscure.value;
+                        },
+                        icon: const FaIcon(FontAwesomeIcons.eye, size: 18, color: Color(0xffEBC08E)),
+                      )
+                    : null,
+                hintText: hintText,
+                hintStyle: const TextStyle(color: Colors.white),
+                filled: true,
+                fillColor: const Color(0xffBA6D50),
+                focusColor: const Color(0xffBA6D50),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 14, top: 14),
+                  child: FaIcon(faIcon, size: 18, color: Colors.white),
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            );
+    });
   }
 }
